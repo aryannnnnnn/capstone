@@ -21,6 +21,8 @@ jobs:
             - name: "Install taskfile"
               uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
             - name: "Install dependencies"
+              working-directory: services/node/api-node
               run: task install 
             - name: "Run Tests"
+              working-directory: services/node/api-node
               run: "task test"
