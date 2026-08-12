@@ -26,3 +26,23 @@ jobs:
             - name: "Run Tests"
               working-directory: services/node/api-node
               run: "task test"
+
+    test-go:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Checkout code"
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+            - name: "Setup Go"
+              uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
+              with: 
+                cache-dependency-path: 'services/node/api-golang/go.sum'
+                go-version-file: 'go.mod'
+                go-version: 1.23
+            - name: "Install taskfile"
+              uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
+            - name: "Install dependencies"
+              working-directory: services/go/api-golang
+              run: task install 
+            - name: "Run Tests"
+              working-directory: services/go/api-golang
+              run: "task test"
