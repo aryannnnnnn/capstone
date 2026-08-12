@@ -26,7 +26,7 @@ jobs:
               with:
                   cache: npm
                   cache-dependency-path: ${{ matrix.service }}/package-lock.json
-                  node-version: ${{ matrix.service }}/package.json
+                  node-version-file: ${{ matrix.service }}/package.json
             - name: "Setup Go"
               if: ${{ matrix.service == 'services/go/api-golang' }}
               uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
@@ -43,7 +43,7 @@ jobs:
               with:
                   cache: poetry
                   cache-dependency-path: ${{ matrix.service }}/poetry.lock
-                  python-version: ${{ matrix.service }}/pyproject.toml
+                  python-version-file: ${{ matrix.service }}/pyproject.toml
             - name: "Install taskfile"
               uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
             - name: "Install dependencies"
