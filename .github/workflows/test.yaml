@@ -23,7 +23,7 @@ jobs:
                 cache-dependency-path: 'services/node/api-node/package-lock.json'
                 node-version: 24
             - name: "Setup Go"
-              if: ${{ matrix.service == 'services/go-lang/*' }}
+              if: ${{ matrix.service == 'services/go/*' }}
               uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
               with: 
                 cache-dependency-path: 'services/node/api-golang/go.sum'
