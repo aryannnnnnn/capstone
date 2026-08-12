@@ -1,0 +1,26 @@
+name: "Test Workflow"
+
+on: 
+    workflow_dispatch:
+    push: 
+        branches:
+            ['main']
+
+jobs:
+    test-node:
+        runs-on: ubuntu-latest
+        steps:
+            - name: "Checkout code"
+              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+            - name: "Setup Node"
+              uses: actions/setup-node@8f152de45cc393bb48ce5d89d36b731f54556e65
+              with: 
+                cache: npm
+                cache-dependency-path: 'services/node/api-node/package-lock.json'
+                node-version: 24
+            - name: "Install taskfile"
+              uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
+            - name: "Install dependencies"
+              run: task install 
+            - name: "Run Tests"
+              run: "task test"

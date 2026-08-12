@@ -1,0 +1,12 @@
+version: 3
+
+tasks: 
+  trigger-workflow:
+    desc: Trigger Github actions workflow using act in local env
+    cmds: 
+      - |
+        act workflow_dispatch \
+          --container-architecture linux/amd64 \
+          -P ubuntu=24.04=catthehacker/ubuntu:act22.04 \
+          --directory ../../.. \
+          -W .github/workflows/test.yaml
