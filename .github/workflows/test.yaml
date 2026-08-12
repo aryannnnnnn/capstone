@@ -7,42 +7,33 @@ on:
             ['main']
 
 jobs:
-    test-node:
+    test:
+        strategy:
+            matrix:
+                service: ['services/node/api-node', 'services/go/api-golang']
         runs-on: ubuntu-latest
         steps:
             - name: "Checkout code"
               uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
             - name: "Setup Node"
+              if: ${{ matrix.service == 'services/node/*' }}
               uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
               with: 
                 cache: npm
                 cache-dependency-path: 'services/node/api-node/package-lock.json'
                 node-version: 24
-            - name: "Install taskfile"
-              uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
-            - name: "Install dependencies"
-              working-directory: services/node/api-node
-              run: task install 
-            - name: "Run Tests"
-              working-directory: services/node/api-node
-              run: "task test"
-
-    test-go:
-        runs-on: ubuntu-latest
-        steps:
-            - name: "Checkout code"
-              uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
             - name: "Setup Go"
+              if: ${{ matrix.service == 'services/go-lang/*' }}
               uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e
               with: 
                 cache-dependency-path: 'services/node/api-golang/go.sum'
-                go-version-file: 'go.mod'
+                go-version-file: 'services/node/api-golang/go.mod'
                 go-version: 1.23
             - name: "Install taskfile"
               uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
             - name: "Install dependencies"
-              working-directory: services/go/api-golang
+              working-directory: ${{ matrix.service }}
               run: task install 
             - name: "Run Tests"
-              working-directory: services/go/api-golang
+              working-directory: ${{ matrix.service }}
               run: "task test"
