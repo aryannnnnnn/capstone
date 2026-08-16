@@ -13,7 +13,7 @@ jobs:
       - name: "Checkout Code"
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - name: "Setup Dependencies"
-        uses: ./.github/actions/setup-dependencies/action.yaml
+        uses: ./.github/actions/setup-dependencies/
       - name: "Login DockerHub"
         uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f
         with:
