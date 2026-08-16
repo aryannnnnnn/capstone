@@ -13,7 +13,7 @@ runs:
   using: composite
   steps:
     - name: "Install Taskfile"
-      if: ${{ inputs.install_taskfile == "true" }}
+      if: ${{ inputs.install_taskfile == 'true' }}
       uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
       with:
         version: taskfile_version
