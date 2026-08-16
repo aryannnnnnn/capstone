@@ -2,10 +2,10 @@ name: "Utilities"
 description: "Contains utilities"
 
 inputs:
-  install-taskfile:
+  install_taskfile:
     description: "install taskfile if true"
     default: "true"
-  taskfile-version:
+  taskfile_version:
     description: "specify the version of taskfile"
     default: "3.52.0"
 
@@ -13,7 +13,7 @@ runs:
   using: composite
   steps:
     - name: "Install Taskfile"
-      if: ${{ install-taskfile == "true" }}
+      if: ${{ install_taskfile == "true" }}
       uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
       with:
-        version: taskfile-version
+        version: taskfile_version
