@@ -111,6 +111,9 @@ jobs:
           image_tag=$(task utils:generate-extended-version-tag -- "$SERVICE")
           fi
 
+          echo "version=${version}" 
+          echo "image_tag=${image_tag}"
+
           echo "version=${version}" >> "$GITHUB_OUTPUT"
           echo "image_tag=${image_tag}" >> "$GITHUB_OUTPUT"
       - name: "Build and push image to docker hub"
