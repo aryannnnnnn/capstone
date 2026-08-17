@@ -21,6 +21,10 @@ on:
         description: "Environment to which the workflow changes manifest"
         required: true
 
+concurrency:
+  group: ${{ github.workflow }}-gitops-${{ inputs.service }}-${{ inputs.environment }}
+  cancel-in-progress: false
+
 jobs:
   update-manifest:
     permissions:
