@@ -8,7 +8,7 @@ on:
 jobs:
   filter:
     runs-on: ubuntu-latest
-    outputs: 
+    outputs:
       services: ${{ steps.filter.outputs.changes }}
     steps:
       - name: "Checkout code"
@@ -17,18 +17,20 @@ jobs:
         id: filter
         with:
           token: ${{secrets.GITHUB_TOKEN}}
-          filters: '.github/utils/file-filters.yaml'
+          filters: ".github/utils/file-filters.yaml"
 
   test:
     needs: filter
+    if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services != '' }}
     strategy:
       matrix:
-        service: ${{ fromJson(needs.filter.outputs.services) }}
+        service:
+          ${{ fromJson(needs.filter.outputs.services) }}
           # [
-            # "services/node/api-node",
-            # "services/go/api-golang",
-            # "services/react/client-react",
-            # "services/python/load-generator-python",
+          # "services/node/api-node",
+          # "services/go/api-golang",
+          # "services/react/client-react",
+          # "services/python/load-generator-python",
           # ]
     runs-on: ubuntu-latest
     steps:

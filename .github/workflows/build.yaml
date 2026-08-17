@@ -2,12 +2,64 @@ name: "Build artifact and push to Docker Hub"
 
 on:
   workflow_dispatch:
+    inputs:
+      service:
+        description: "Service to build"
+        type: choice
+        required: true
+        options:
+          - services/go/api-golang
+          - services/node/api-node
+          - services/python/load-generator-python
+          - services/other/api-golang-migrator
+          - services/react/client-react
+      version:
+        description: "Version/tag to use (optional; defaults generating with git describe)"
+        required: false
+        type: string
   push:
     branches:
       - main
+    paths:
+      - services/**
+    tags:
+      - "**@[0-9]*[0-9]*[0-9]*"
 
 jobs:
+  filter:
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.filter.outputs.services }}
+      environment: ${{ steps.filter.outputs.environment }}
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: dorny/paths-filter@ceb8a2b8f2d89434be7ff52d3de7ec3738c5cc9d
+        id: filter
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+          filters: ".github/utils/file-filters.yaml"
+      - name: "Return Environment for Build and version"
+        run: |
+          if [[ ${{ github.event_name  }} == 'workflow_dispatch' ]]; then
+          echo 'services=["${{ inputs.service }}"]' >> "$GITHUB_OUTPUT"
+          echo 'environment=development' >> "$GITHUB_OUTPUT"
+          elif [[ ${{ github.event_name }} == 'push' && ${{ github.ref_type  }} == 'tag']]; then
+          tag=${{ github.ref_name }}
+          svc="${tag%%@*}"
+          echo "services=[\"$svc\"]" >> $GITHUB_OUTPUT
+          echo 'environment=production' >> $GITHUB_OUTPUT
+          else
+          echo "${{ steps.filter.outputs.changes }}" >> "$GITHUB_OUTPUT"
+          echo 'environment=staging' >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: filter
+    if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services != '' }}
+    strategy:
+      matrix:
+        service: ${{ fromJson(needs.filter.outputs.services) }}
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout Code"
@@ -25,14 +77,29 @@ jobs:
         uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c
       - name: "Create Tags"
         id: image-tag
+        env:
+          ENVIRONMENT: ${{ needs.filter.outputs.environment }}
+          INPUT_VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || '' }}
+          SERVICE: ${{ matrix.service }}
         run: |
-          tag=foo
-          echo "tag=$tag" >> $GITHUB_OUTPUT
-      - name: "Build and Push Image"
+          if [[ -n "$INPUT_VERSION" ]]; then
+          version=$INPUT_VERSION
+          image_tag=$(task utils:manual-version-tag -- "$INPUT_VERSION")
+          elif [[ "$ENVIRONMENT" == "production" ]]; then
+          version=$(task utils:generate-version -- "$SERVICE")
+          image_tag=$(task utils:generate-version-tag -- "$SERVICE")
+          else
+          version=$(task utils:generate-extended-version -- "$SERVICE")
+          image_tag=$(task utils:generate-extended-version-tag -- "$SERVICE")
+          fi
+
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "image_tag=${image_tag}" >> "$GITHUB_OUTPUT"
+      - name: "Build and push image to docker hub"
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a
         with:
           context: ./services/go/api-golang/
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/test:${{ steps.image-tag.outputs.tag }}
+          tags: ${{ steps.image-tag.outputs.image_tag }}
           push: true
           cache-from: type=gha
           cache-to: type=gha
