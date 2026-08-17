@@ -21,7 +21,7 @@ jobs:
 
   test:
     needs: filter
-    if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services != '' }}
+    if: ${{ needs.filter.outputs.changes != '[]' && needs.filter.outputs.changes != '' }}
     strategy:
       matrix:
         service:
