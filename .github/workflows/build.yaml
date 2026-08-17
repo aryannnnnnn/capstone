@@ -41,7 +41,7 @@ jobs:
           filters: ".github/utils/file-filters.yaml"
       - name: "Return Environment for Build and version"
         run: |
-          if [[ ${{ github.event_name  }} == 'workflow_dispatch' ]]; then
+          if [[ "${{ github.event_name  }}" == "workflow_dispatch" ]]; then
           echo 'services=["${{ inputs.service }}"]' >> "$GITHUB_OUTPUT"
           echo 'environment=development' >> "$GITHUB_OUTPUT"
           elif [[ ${{ github.event_name }} == 'push' && ${{ github.ref_type  }} == 'tag']]; then
