@@ -63,7 +63,7 @@ jobs:
       # - name: "Install taskfile"
       #   uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
       - name: "Install taskfile"
-        uses: ./github/actions/setup-dependencies/
+        uses: ./.github/actions/setup-dependencies/
       - name: "Install dependencies"
         working-directory: ${{ matrix.service }}
         run: task install
