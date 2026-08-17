@@ -18,8 +18,7 @@ on:
         required: false
         type: string
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - services/**
     tags:
@@ -112,7 +111,7 @@ jobs:
       - name: "Build and push image to docker hub"
         uses: docker/build-push-action@53b7df96c91f9c12dcc8a07bcb9ccacbed38856a
         with:
-          context: ./services/go/api-golang/
+          context: ./${{ matrix.service }}
           tags: ${{ steps.image-tag.outputs.image_tag }}
           push: true
           cache-from: type=gha
