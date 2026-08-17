@@ -44,7 +44,7 @@ jobs:
           if [[ "${{ github.event_name  }}" == "workflow_dispatch" ]]; then
           echo 'services=["${{ inputs.service }}"]' >> "$GITHUB_OUTPUT"
           echo 'environment=development' >> "$GITHUB_OUTPUT"
-          elif [[ ${{ github.event_name }} == 'push' && ${{ github.ref_type  }} == 'tag']]; then
+          elif [[ ${{ github.event_name }} == 'push' && ${{ github.ref_type  }} == 'tag' ]]; then
           tag=${{ github.ref_name }}
           svc="${tag%%@*}"
           echo "services=[\"$svc\"]" >> $GITHUB_OUTPUT
