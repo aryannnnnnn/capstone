@@ -29,8 +29,8 @@ jobs:
   filter:
     runs-on: ubuntu-latest
     outputs:
-      services: ${{ steps.filter.outputs.services }}
-      environment: ${{ steps.filter.outputs.environment }}
+      services: ${{ steps.filter-output.outputs.services }}
+      environment: ${{ steps.filter-output.outputs.environment }}
     steps:
       - name: "Checkout code"
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -40,6 +40,7 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
           filters: ".github/utils/file-filters.yaml"
       - name: "Return Environment for Build and version"
+        id: filter-output
         run: |
           if [[ "${{ github.event_name  }}" == "workflow_dispatch" ]]; then
           echo 'services=["${{ inputs.service }}"]' >> "$GITHUB_OUTPUT"
@@ -57,7 +58,7 @@ jobs:
 
   build:
     needs: filter
-    if: ${{ 'needs.filter.outputs.services' != '[]' && 'needs.filter.outputs.services' != '' }}
+    if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services != '' }}
     strategy:
       matrix:
         service: ${{ fromJson(needs.filter.outputs.services) }}
