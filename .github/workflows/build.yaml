@@ -54,7 +54,7 @@ jobs:
           echo "changed modules = ${{ steps.filter.outputs.changes }}"
           # echo "services=${{ steps.filter.outputs.changes }}" >> "$GITHUB_OUTPUT"
           changes='${{ steps.filter.outputs.changes }}'
-          echo "services=$(jq -Rn --arg value "$changes" '[$value]')" >> "$GITHUB_OUTPUT"
+          echo "services=$changes" >> "$GITHUB_OUTPUT"
           echo 'environment=staging' >> "$GITHUB_OUTPUT"
           fi
 
