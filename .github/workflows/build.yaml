@@ -90,6 +90,7 @@ jobs:
         uses: docker/setup-buildx-action@bb05f3f5519dd87d3ba754cc423b652a5edd6d2c
       - name: "Create Tags"
         id: image-tag
+        working-directory: ${{ matrix.service }}
         env:
           ENVIRONMENT: ${{ needs.filter.outputs.environment }}
           INPUT_VERSION: ${{ github.event_name == 'workflow_dispatch' && inputs.version || '' }}
