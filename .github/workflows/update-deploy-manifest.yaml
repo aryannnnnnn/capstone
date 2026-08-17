@@ -48,4 +48,4 @@ jobs:
         working-directory: ${{ inputs.service }}
         run: |
           task utils:git:commit-push \
-            COMMIT_MSG=${{ steps.commit-message.outputs.message}}
+            COMMIT_MSG="${{ steps.commit-message.outputs.message}}"
