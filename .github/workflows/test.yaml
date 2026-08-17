@@ -21,7 +21,7 @@ jobs:
 
   test:
     needs: filter
-    if: ${{ needs.filter.outputs.changes != '[]' && needs.filter.outputs.changes != '' }}
+    if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services != '' }}
     strategy:
       matrix:
         service:
@@ -60,8 +60,10 @@ jobs:
           cache: poetry
           cache-dependency-path: ${{ matrix.service }}/poetry.lock
           python-version-file: ${{ matrix.service }}/pyproject.toml
+      # - name: "Install taskfile"
+      #   uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
       - name: "Install taskfile"
-        uses: go-task/setup-task@a00fbb05ce67b35648be3c78cbc9fd85354c757e
+        uses: ./github/actions/setup-dependencies/
       - name: "Install dependencies"
         working-directory: ${{ matrix.service }}
         run: task install
