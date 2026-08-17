@@ -50,7 +50,7 @@ jobs:
           echo "services=[\"$svc\"]" >> $GITHUB_OUTPUT
           echo 'environment=production' >> $GITHUB_OUTPUT
           else
-          echo "${{ steps.filter.outputs.changes }}" >> "$GITHUB_OUTPUT"
+          echo "services=${{ steps.filter.outputs.changes }}" >> "$GITHUB_OUTPUT"
           echo 'environment=staging' >> "$GITHUB_OUTPUT"
           fi
 
