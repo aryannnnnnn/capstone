@@ -67,6 +67,9 @@ jobs:
           echo "environment ${{ needs.filter.outputs.environment}}"
 
   build:
+    permissions:
+      contents: read
+      actions: write
     needs: filter
     if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services != '' }}
     strategy:
@@ -118,3 +121,11 @@ jobs:
           push: true
           cache-from: type=gha
           cache-to: type=gha
+      - name: "Trigger Deploy Manifest Changes"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run update-deploy-manifest.yaml \
+            -f service=${{ matrix.service }}
+            -f version=${{ steps.image-tag.outputs.version }}
+            -f environment=${{ needs.filter.outputs.environment }}
