@@ -47,5 +47,5 @@ jobs:
       - name: "Commit manifest changes (via task)"
         working-directory: ${{ inputs.service }}
         run: |
-          task git:commit-push \
+          task utils:git:commit-push \
             COMMIT_MSG=${{ steps.commit-message.outputs.message}}
