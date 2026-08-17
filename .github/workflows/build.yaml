@@ -57,7 +57,7 @@ jobs:
 
   build:
     needs: filter
-    if: ${{ needs.filter.outputs.services != '[]' && needs.filter.outputs.services != '' }}
+    if: ${{ 'needs.filter.outputs.services' != '[]' && 'needs.filter.outputs.services' != '' }}
     strategy:
       matrix:
         service: ${{ fromJson(needs.filter.outputs.services) }}
