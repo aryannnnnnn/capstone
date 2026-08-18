@@ -1,0 +1,60 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "bootstrap-sha": "fd123b521e9e05bfbd7d9d01033a748e410de4f9",
+  "include-component-in-tag": true,
+  "include-v-in-tag": false,
+  "bump-minor-pre-major": true,
+  "tag-separator": "@",
+  "release-type": "simple",
+  "separate-pull-requests": false,
+  "packages": {
+    "services/go/api-golang": {
+      "component": "services/go/api-golang",
+      "release-type": "go"
+    },
+    "services/node/api-node": {
+      "component": "services/node/api-node",
+      "release-type": "node"
+    },
+    "services/other/api-golang-migrator": {
+      "component": "services/other/api-golang-migrator",
+      "release-type": "go"
+    },
+    "services/python/load-generator-python": {
+      "component": "services/python/load-generator-python",
+      "release-type": "python"
+    },
+    "services/react/client-react": {
+      "component": "services/react/client-react",
+      "release-type": "node"
+    }
+  },
+  "changelog-sections": [
+    {
+      "type": "feat",
+      "section": "Features"
+    },
+    {
+      "type": "fix",
+      "section": "Bug Fixes"
+    },
+    {
+      "type": "chore",
+      "section": "Chores"
+    },
+    {
+      "type": "revert",
+      "section": "Reverts"
+    }
+  ],
+  "plugins": [
+    {
+      "type": "linked-versions",
+      "groupName": "apis-and-db",
+      "components": [
+        "services/go/api-golang",
+        "services/other/api-golang-migrator"
+      ]
+    }
+  ]
+}
