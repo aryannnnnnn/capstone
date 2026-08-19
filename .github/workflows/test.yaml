@@ -66,7 +66,7 @@ jobs:
         uses: ./.github/actions/setup-dependencies/
       - name: "Install dependencies"
         working-directory: ${{ matrix.service }}
-        run: task install
+        run: task install-ci
       - name: "Run Tests"
         working-directory: ${{ matrix.service }}
         run: "task test"
