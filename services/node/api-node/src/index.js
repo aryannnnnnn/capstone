@@ -12,7 +12,7 @@ app.use(morgan("tiny"));
 app.get("/", async (req, res) => {
   await insertRequest();
   const response = await getDateTimeAndRequests();
-  console.log = response;
+  console.log(response);
   response.api = "node";
   res.send(response);
 });
