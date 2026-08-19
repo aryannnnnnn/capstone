@@ -1,3 +1,3 @@
 apiGolang:
-  version: 1.3.2-0020-gbdd5c87 # staging_services/go/api-golang
+  version: 1.3.3-0000-g4846d35 # staging_services/go/api-golang
   replicas: 1
