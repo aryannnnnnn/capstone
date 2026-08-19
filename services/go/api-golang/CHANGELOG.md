@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/aryannnnnnn/capstone/compare/services/go/api-golang@1.3.2...services/go/api-golang@1.3.3) (2026-08-19)
+
+
+### Bug Fixes
+
+* **services/go/api-golang:** replace deprecated ioutil.ReadFile with os.ReadFile ([a84af67](https://github.com/aryannnnnnn/capstone/commit/a84af677801a4c40bdacf772c6b6b0a76b4a3a47))
+
 ## [1.3.1](https://github.com/sidpalas/capstone/compare/services/go/api-golang@1.3.0...services/go/api-golang@1.3.1) (2025-09-17)
 
 
