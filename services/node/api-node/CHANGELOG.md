@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/aryannnnnnn/capstone/compare/services/node/api-node@1.1.1...services/node/api-node@1.1.2) (2026-08-19)
+
+
+### Bug Fixes
+
+* **services/node/api-node:** log response instead of overwriting console.log ([c167307](https://github.com/aryannnnnnn/capstone/commit/c1673076c977f66fff9c8f0c321ee6cf294c08f9))
+
 ## [1.1.0](https://github.com/sidpalas/capstone/compare/services/node/api-node@1.0.9...services/node/api-node@1.1.0) (2025-09-17)
 
 
